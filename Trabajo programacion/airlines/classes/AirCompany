@@ -1,0 +1,389 @@
+package airlines.classes;
+import airlines.classes.*;
+import airlines.interfaces.IAirCompany;
+import java.util.Scanner;
+import java.util.InputMismatchException;
+/**
+*Nombre: AirCompany
+*Descripcion: Clase que utilizara el programa principal.
+*@author: Vicente Losada Mesa
+*@version: 1.0
+*/
+public class AirCompany implements IAirCompany{
+  public String name;
+  protected char[] code=new char[3];
+  public CEO ceo;
+  public String fundationdate;
+  public ArrayList<Plane> airnavy=new ArrayList<Plane>();
+  public ArrayList<Flight> fligths=new ArrayList<Fligth>();
+  public ArrayList<Client> clients=new ArrayList<Client>();
+  public ArrayList<Employee> workers=new ArrayList<Employee>();
+  //public ArrayList<Ticket> tickets=new ArrayList<Ticket>();
+
+/**
+*Nombre: Constructor Completo de una compañia.
+*@param String name: Nombre de la compañia.
+*@param CEO c: Jefe de la compañia.
+*@param String dt: Fecha de fundacion de la compañia.
+*/
+  public AirCompany(String name,CEO c,String dt){
+    this.name=name;
+    this.code=GenerateCode(name);
+    this.ceo=CEO;
+    this.fundationdate=dt;
+  }
+/**
+*Nombre: GenerateCode
+*Descripcion: Genera el codigo de la compañia segun el nombre de la misma.
+*@param String n: Recibe el nombre de la compañia.
+*/
+  public void GenerateCode(String n){
+  for(int i=0;i<3;i++){
+    this.code[i]=n.charAt(i);
+    }
+  }
+/**
+*Nombre: listMenu
+*Descripcion: Muestra el menu que utilizara el metodo hireEmployee.
+*/
+  public void listMenu(){
+    System.out.println("Bienvenido al programa de contratacion de un empleado, va a usted a contratar un empleado, elija una opcion: ");
+    System.out.println("1) Contrate un Tripulante. ");
+    System.out.println("2) Contrate un Piloto. ");
+    System.out.println("3) Contrate un CEO.");
+    System.out.println("0) Salir.");
+  }
+  /**
+  *Nombre: listFire
+  *Descripcion: Muestra el menu que utilizara el metodo fireEmployee.
+  */
+  public void listFire(){
+    System.out.println("Bienvenido al programa de despidos de un empleado, va a usted a despedir un empleado, elija una opcion: ");
+    System.out.println("1) Despide un Tripulante. ");
+    System.out.println("2) Despide un Piloto. ");
+    System.out.println("3) Despide un CEO.");
+    System.out.println("0) Salir.");
+  }
+  public void listShop(){
+    System.out.println("Bienvenido al programa de compra de su ticket, acontinuacion podra elegir entre comprar un ticket vip o un ticket normal: ");
+    System.out.println("1) Comprar un ticket vip. ");
+    System.out.println("2) Comprar un ticket normal. ");
+    System.out.println("0) Salir. ");
+  }
+  public int readOption(Scanner opt){
+    int option;
+    try{
+      option=opt.nextInt();
+    }catch(InputMismatchException e){
+      opt=new Scanner(System.in);
+      opcion=0;
+    }catch(Exception e){
+      System.out.println("Error en el sistema");
+      option=0;
+    }
+    return option;
+  }
+
+  public void hireEmployee(Employee e){
+    int option;
+    Scanner opt=new Scanner(System.in);
+    try{
+      do{
+          listMenu();
+          option=readOption(opt);
+        switch(option){
+          case 0:
+            System.out.println("Hasta luego.");
+          case 1:
+            if(e instanceof Tripulation){
+              workers.add(e);
+            }else{
+              System.out.println("No se a podido contratar un tripulante.");
+            }
+          case 2:
+            if(e instanceof Pilot){
+              workers.add(e);
+            }else{
+              System.out.println("No se a podido contratar un piloto.");
+            }
+          case 3:
+          if(e instanceof CEO){
+            workers.add(e);
+          }else{
+            System.out.println("No se a podido contratar un CEO.");
+          }
+          default:
+            System.out.println("Inserte un numero del 0 al 3");
+        }
+      }while(option!=3);
+    }catch (InputMismatchException e) {
+      System.out.println("Ha ocurrido un error, introduzca un numero comprendido entre 0 y 3.");
+    }
+  }
+  public void fireEmployee(Employee e){
+    int option;
+    Scanner opt=new Scanner(System.in);
+    int id=e.getId();
+    try{
+      do{
+          listFire();
+          option=readOption(opt);
+        switch(option){
+          case 0:
+            System.out.println("Hasta luego.");
+          case 1:
+            if(e instanceof Tripulation){
+              workers.remove(searchEmployee(id));
+              System.out.println("Se ha despedido a un tripulante.");
+            }else{
+              System.out.println("No se a podido despedir al tripulante.");
+            }
+          case 2:
+            if(e instanceof Pilot){
+              workers.remove(searchEmployee(id));
+              System.out.println("Se ha despedido un piloto.");
+            }else{
+              System.out.println("No se a podido despedir al piloto.");
+            }
+          case 3:
+          if(e instanceof CEO){
+            workers.remove(searchEmployee(id));
+            System.out.println("Se ha despedido al CEO.");
+          }else{
+            System.out.println("No se a podido despedir al CEO.");
+          }
+          default:
+            System.out.println("Porfavor, inserte un numero del 0 al 3.");
+        }
+      }while(option!=3);
+    }catch (InputMismatchException e) {
+      System.out.println("Ha ocurrido un error, introduzca un numero comprendido entre 0 y 3.");
+    }
+  }
+/*Busca un empleado por su codigo y lo devuelve*/
+  public Employee searchEmployee(int id){
+    Employee tmp;
+    boolean found=false;
+    for(int i=0;i<workers.size()&&found!=true;i++){
+      if(workers.get(i).getId()=id){
+        found=true;
+        System.out.println("El empleado que buscaba se ha encontrado.");
+        tmp=workers.get(i);
+      }else{
+        System.out.println("No se ha encontrado el empleado.");
+      }
+    }
+    return tmp;
+  }
+  public void listEmployee(){
+    System.out.println("Esta es la lista de empleados de la compañia: ");
+    Iterator<Employee> EmployeeIterator=workers.iterator();
+    while(EmployeeIterator.hasNext()){
+      Employee i= EmployeeIterator.next();
+      i.toString();
+      //HABRIA QUE COMPLETAR CON HAY TANTOS PILOTOS Y TANTOS TRIPULANTES.
+    }
+  }
+  public void totalSalary(Employee e){
+    System.out.println("El salario total del empleado es "+e.salary;);
+  }
+
+  public boolean AddPlane(Plane p){
+    boolean added=false;
+    if(p instanceof Plane){
+      airnavy.add(p);
+      added=true;
+    }
+    return added;
+  }
+  public void listPlane(){
+    System.out.println("Esta es la flota de aviones de la compañia: ");
+    Iterator<Plane> PlaneIterator=airnavy.iterator();
+    while(PlaneIterator.hasNext()){
+      Plane i= PlaneIterator.next();
+      i.toString();
+    }
+  }
+  public boolean removePlane(Plane p){
+    boolean eliminated=false;
+    String code=p.matricula;//CAMBIAR A INGLES EN CLASE AVION.
+    if(p instanceof Plane){
+      if(airnavy.remove(searchPlane(code))){
+        eliminated=true;
+        System.out.println("Se ha destruido el avion indicado.");
+      }else{
+        System.out.println("No se ha podido destruir el avion indicado.");
+        }
+      }
+      return eliminated;
+  }
+  public Plane searchPlane(String m){
+    boolean found=false;
+    Plane p;
+      for(int i=0;i<airnavy.size()&&found!=true;i++){
+        if(airnavy.get(i).getMatricula()=m){
+          found=true;
+          p=airnavy.get(i);
+          System.out.println("Se a localizado el avion que buscaba.");
+        }else{
+          System.out.println("No se ha localizado el avion.");
+        }
+        return p;
+  }
+
+  public boolean addFligth(Fligth f){
+    boolean added=false;
+    if(f instanceof Fligth){
+      fligths.add(p);
+      added=true;
+    }
+    return added;
+  }
+  public void listFlight(){
+    System.out.println("Esta es la flota de aviones de la compañia: ");
+    Iterator<Flight> FligthIterator=fligths.iterator();
+    while(FligthIterator.hasNext()){
+      Fligth i= FlightIterator.next();
+      i.toString();
+    }
+  }
+  public Flight searchFlight(String code){
+    boolean found=false;
+    Flight tmp;
+      for(int i=0;i<fligths.size()&&found!=true;i++){
+        if(fligths.get(i).getCode()=code){
+          found=true;
+          tmp=fligths.get(i);
+          System.out.println("Se ha localizado el vuelo que estaba buscando.");
+        }else{
+          System.out.println("No se ha podido localizar el vuelo.");
+        }
+      }
+      return tmp;
+  }
+public boolean removeFlight(Flight f){
+  boolean eleminated=false;
+  String code=f.code;
+  if(f instanceof Fligth){
+    if(fligths.remove(searchFlight(code))){
+      eliminated=true;
+      System.out.println("El vuelo ha sido eliminado.");
+    }else{
+      System.out.println("El vuelo no pudo ser eliminado.");
+    }
+  }
+  return eliminated;
+}
+
+/*public boolean buyTicket(Ticket t){
+  boolean its_sold=false;
+  int option;
+  Scanner opt=new Scanner(System.in);
+  try{
+    do{
+        listShop();
+        option=readOption(opt);
+      switch(option){
+        case 0:
+          System.out.println("Hasta la proxima, gracias por utilizar nuestros servicios. ");
+        case 1:
+          if(t instanceof Ticket){
+            if(its_sold=false&&t.sold=false&&t.vip=false){
+              t.sellTicket();
+              t.vip=true;
+              its_sold=true;
+              System.out.println("Usted a comprado un ticket vip, gracias por viajar con nosotros. ");
+            }else{
+            System.out.println("Lo sentimos, no se ha podido realizar la compra de un ticket vip. ");
+          }
+        case 2:
+          if(t instanceof Ticket){
+            if(t.sold=false&&its_sold=false){
+              t.sellTicket();
+              its_sold=false;
+              System.out.println("Usted a comprado un ticket, gracias por viajar con nosotros. ");
+            }else{
+            System.out.println("Lo sentimos, no se ha podido realizar la compra de un ticket. ");
+          }
+          default:
+            System.out.println("Por favor, elija una de las opciones indicadas en el menu, gracias por su atencion. ");
+        }
+      }while(option!=2);
+    }catch (InputMismatchException e) {
+    System.out.println("Ha ocurrido un error, porfavor introduzca un numero comprendido entre 0 y 2.");
+      }
+    return its_sold;
+  }*/
+/*public Ticket searchTicket(String codeticket){
+  boolean found=false
+  Ticket tmp;
+  for(int i=0;i<tickets.size()&&found!=true;i++){
+    if(tickets.get(i).getCode()=codeticket){
+      found=true;
+      tmp=tickets.get(i);
+      System.out.println("Se ha localizado, el ticket.");
+    }else {
+      System.out.println("No se pudo localizar el ticket.");
+    }
+  }
+  return tmp;
+}*/
+/*public boolean removeTicket(Ticket t){
+  boolean remove=false;
+  String code=t.codeticket;
+  if(t instanceof Ticket){
+    tickets.remove(searchTicket(code));
+    remove=true;
+    System.out.println("Se ha eliminado el ticket. ");
+  }else{
+    System.out.println("No se ha podido eliminar el ticket. ");
+  }
+  return remove;
+}*/
+
+public boolean addClient(Client c){
+  boolean added=false;
+  if(c instanceof Client){
+    clients.add(c);
+    added=true;
+  }
+  return added;
+}
+public void listClient(){
+  System.out.println("Esta es la lista de clientes de la compañia: ");
+  Iterator<Client> ClientIterator=clients.iterator();
+  while(ClientIterator.hasNext()){
+    Client c= ClientIterator.next();
+    c.toString();
+  }
+}
+public Client searchClient(String nif){
+  boolean found=false;
+  Client tmp;
+    for(int i=0;i<clients.size()&&found!=true;i++){
+      if(clients.get(i).getNif()=nif){
+        found=true;
+        tmp=clients.get(i);
+        System.out.println("Se ha localizado al cliente que estaba buscando. ");
+      }else{
+        System.out.println("No se ha podido localizar al cliente. ");
+      }
+    }
+    return tmp;
+}
+public boolean removeClient(Client c){
+  boolean remove=false;
+  String nif=c.nif;
+  if(c instanceof Client){
+    clients.remove(searchClient(nif));
+    remove=true;
+    System.out.println("Se elimino al cliente de la base de datos. ");
+  }else{
+    System.out.println("No se ha podido eliminar al cliente de la base de datos. ");
+  }
+  return remove;
+}
+public void showCEO(CEO c){
+    System.out.println("El CEO de su compañia es "+this.ceo);
+  }
+}
