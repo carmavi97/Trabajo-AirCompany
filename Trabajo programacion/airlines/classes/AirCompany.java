@@ -10,7 +10,7 @@ import java.util.ArrayList;
 *Nombre: AirCompany
 *Descripcion: Clase que utilizara el programa principal.
 *@author: Vicente Losada Mesa
-*@version: 1.0
+*@version: 1.1.4
 */
 public class AirCompany implements IAirCompany{
   public String name;
@@ -447,12 +447,13 @@ public Client searchClient(String nif){
             found=true;
               tmp=clients.get(i);
             System.out.println("Se ha localizado al cliente que estaba buscando. ");
-            }else{
-                System.out.println("No se ha podido localizar al cliente. ");
-           } 
+            }
         }else{
           System.out.println("No existen clientes registrados");
       }
+    }
+    if(tmp==null){
+        System.out.println("No se ha podido localizar al cliente. ");
     }
     return tmp;
 }
