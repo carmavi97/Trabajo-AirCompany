@@ -344,7 +344,8 @@ public class AirCompany implements IAirCompany{
           found=true;
           tmp=flights.get(i);
           System.out.println("Se ha localizado el vuelo que estaba buscando.");
-        }else{
+        }
+        if(tmp==null){
           System.out.println("No se ha podido localizar el vuelo.");
         }
       }
@@ -384,7 +385,8 @@ public Ticket searchTicket(String codeticket){
       found=true;
       tmp=tickets.get(i);
       System.out.println("Se ha localizado, el ticket.");
-    }else {
+    }
+    if(tmp==null){
       System.out.println("No se pudo localizar el ticket.");
     }
   }
