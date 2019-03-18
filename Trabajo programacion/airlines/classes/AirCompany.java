@@ -205,10 +205,11 @@ public class AirCompany implements IAirCompany{
         found=true;
         System.out.println("El empleado que buscaba se ha encontrado.");
         tmp=workers.get(i);
-      }else{
-        System.out.println("No se ha encontrado el empleado.");
       }
     }
+    if(tmp==null){
+        System.out.println("No se ha encontrado el empleado.");
+      }
     return tmp;
   }
 /**
@@ -300,9 +301,10 @@ public class AirCompany implements IAirCompany{
           found=true;
           p=airnavy.get(i);
           System.out.println("Se a localizado el avion que buscaba.");
-        }else{
-          System.out.println("No se ha localizado el avion.");
         }
+      }
+      if(p==null){
+          System.out.println("No se ha localizado el avion.");
       }
      return p;
   }
@@ -345,10 +347,10 @@ public class AirCompany implements IAirCompany{
           tmp=flights.get(i);
           System.out.println("Se ha localizado el vuelo que estaba buscando.");
         }
-        if(tmp==null){
+      }
+      if(tmp==null){
           System.out.println("No se ha podido localizar el vuelo.");
         }
-      }
       return tmp;
   }
 /**
@@ -386,10 +388,10 @@ public Ticket searchTicket(String codeticket){
       tmp=tickets.get(i);
       System.out.println("Se ha localizado, el ticket.");
     }
-    if(tmp==null){
+  }
+  if(tmp==null){
       System.out.println("No se pudo localizar el ticket.");
     }
-  }
   return tmp;
 }
 /**

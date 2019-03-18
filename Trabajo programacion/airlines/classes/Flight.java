@@ -15,10 +15,10 @@ import airlines.classes.Ticket;
 *@version:1.0
 */
 public class Flight{
-    
+
     protected static final String CODE_PRE="";
     protected static final String DEAPERTUREDATE_PRE="";
-    
+
     protected Airport destination;
     protected Airport start;
     protected String date;
@@ -31,14 +31,15 @@ public class Flight{
     public float price;
     protected boolean ready=false;
     protected AirCompany company;
+    protected int gains = 0;
     /**
     *@param destination: Es el aeropuerto al que se dijige el vuelo
     *@param start:Es el aeropuerto dede el que sale el vuelo
-    *@param company: Es la compañia  la que pertenece el vuelo 
-    *@param date: Es la fecha a la que sale el vuelo 
+    *@param company: Es la compañia  la que pertenece el vuelo
+    *@param date: Es la fecha a la que sale el vuelo
     *@param duration: Es la duracion del vuelo
-    *@param pilot1: Es uno de los dos prilotos que relizan el vuelo 
-    *@param pilot2: Es uno de los dos pilotos que realiza el vuelo  
+    *@param pilot1: Es uno de los dos prilotos que relizan el vuelo
+    *@param pilot2: Es uno de los dos pilotos que realiza el vuelo
     *@param plane: Es el avion en el que se reliza el vuelo
     *@param price: Es el precio base del vuelo
     */
@@ -57,33 +58,36 @@ public class Flight{
         this.company=company;
         this.seats=plane.getSeats();
         this.assignTickets();
-        
+
     }
-    
+
     public Airport getStart(){
         return this.start;
     }
-    
+
     public Airport getDestination(){
         return this.destination;
     }
-    
+
     public Seat[][] getSeats(){
         return this.seats;
     }
-    
+
     public String getDate(){
         return this.date;
     }
     public String getCode(){
         return this.code;
     }
+    public int getGains(){
+      return this.gains;
+    }
     /**
     *Genera el codigo del vuelo
     *@param dest:Ees el aeropuerto destino
     *@param company: Es la compañia que oferta el vuelo
     *@param d: es la fecha y hora a la que sale el vuelo (formato YYYY/MM/DD HH:MM)
-    *@return code: es el codigo del vuelo 
+    *@return code: es el codigo del vuelo
     */
     private String createCode(AirCompany company,Airport dest, String d){
         String code="";
@@ -109,7 +113,7 @@ public class Flight{
         crew=(int)Math.ceil((plane.capacity*2)/100);
         this.staff=new Tripulation[crew];
     }
-    
+
     /**
     *@param t: es el tripulacion que se desea añadir al vuelo
     * Este metodo añade un tripulante al avion si hay espacio, ademas avisa de cuando esta lleno
@@ -134,8 +138,8 @@ public class Flight{
         return add;
     }
     /**
-    *@param t: es el tripulacion que se desea eliminar 
-    *@return remove: es una valirable 
+    *@param t: es el tripulacion que se desea eliminar
+    *@return remove: es una valirable
     * este metodo busca un tripulante por su codigo y si lo encuentra lo elimina del array
     */
     public boolean removeTripulation(Tripulation t){
@@ -160,7 +164,7 @@ public class Flight{
         return code;
     }
     /**
-    *Este metodo le asignara un ticket a cada asiento del vuelo, usano como codigo 
+    *Este metodo le asignara un ticket a cada asiento del vuelo, usano como codigo
     la union de el codigo del vuelo y la posicion del asiento
     */
     private void assignTickets(){
@@ -181,22 +185,21 @@ public class Flight{
     }
     /**
     *@return profitable: sera true si el vuelo es rentable y false si no lo sabe
-    * calcula las ganancias actuales del vuelo y las perdidas por combustible y tras comparanlas 
+    * calcula las ganancias actuales del vuelo y las perdidas por combustible y tras comparanlas
     devuelve si es renttable el vuelo o no
     */
     public boolean Rentavility(){
         boolean profitable=false;
-        int gain=0;
         int lost=0;
         for(int i=0;i<seats.length;i++){
             for(int j=0;j<seats[i].length;j++){
                 if(this.seats[i][j].ticket.getSold()==true){
-                    gain+=this.seats[i][j].ticket.getPrice();
+                    this.gains+=this.seats[i][j].ticket.getPrice();
                 }
             }
         }
         lost=(this.plane.getComsumption()*this.duration);
-        if(gain>lost){
+        if(this.gains>lost){
             profitable=true;
         }
         return profitable;

@@ -20,9 +20,9 @@ import airlines.classes.*;
 public class Menu{
 
     private static Menu instance;
-    
+
     private Menu(){
-        
+
     }
     public static Menu getInstance(){
         if(instance==null){
@@ -31,7 +31,7 @@ public class Menu{
         return instance;
     }
 
-    
+
 
     /**
     *Nombre: imprimeMenu
@@ -62,15 +62,15 @@ public class Menu{
         Flight flight=company.searchFlight(code);
         if(flight!=null){
             if(flight.Rentavility()){
-                System.out.println("El vuelo es rentable");
+                System.out.println("El precio de este vuelo es "+flight.plane.getComsumption()*flight.duration+" euros, ha recaudado "+flight.getGains()+" es rentable.");
             }else{
-                System.out.println("El vuelo no es rentable");
+                System.out.println("El precio de este vuelo es "+flight.plane.getComsumption()*flight.duration+" euros, ha recaudado "+flight.getGains()+" no es rentable.");
             }
         }
     }
     /**
     *El metodo pedira direntes datos al usuario y los usara para encontra un vuelo, luego mostrala los asientos disponibles de dicho vuelo y
-    le pedira que seleciones el billete que desa comprar, tras esto le pedira sus datos y si no esta registrado le pedira que se registre para 
+    le pedira que seleciones el billete que desa comprar, tras esto le pedira sus datos y si no esta registrado le pedira que se registre para
     realizar la compra
     *@param company: Es la compañia con la que se trabaja
     */
@@ -91,7 +91,7 @@ public class Menu{
                          offers.add(company.flights.get(i));
                      }
                  }
-                if(offers.size()!=0){ 
+                if(offers.size()!=0){
                     do{
                         printOffers(offers);
                         System.out.println("Selecione el vuelo que desea o 0 para salir del menu");
@@ -148,13 +148,13 @@ public class Menu{
                                                         }catch(InputMismatchException e){
                                                             System.out.println(e);
                                                             System.out.println("error");
-                                                        } 
+                                                        }
                                                     }while(flag==false);
-                                                }  
+                                                }
                                              }else{
                                                  System.out.println("Error, billete ya vendido");
                                              }
-                                             
+
                                         }else{
                                             System.out.println("Introduzca una opcion correcta");
                                             correct=false;
@@ -176,7 +176,7 @@ public class Menu{
                 }else{
                     System.out.println("No se ofertan vuelos que haga esa ruta");
                 }
-            }else{            
+            }else{
                 System.out.println("No se ofertan vuelos hacia ese aeropuerto, o los datos eran incorrectos");
             }
         }else{
@@ -205,7 +205,7 @@ public class Menu{
         correct=true;
         return client;
     }
-    
+
     /**
     *Este metodo comprueba si el cliente esta registrado por su dni
     *@return client: Es el cliente en cuestion, que sera null si no existe
@@ -234,14 +234,14 @@ public class Menu{
                     }
                 }catch(InputMismatchException e){
                     System.out.println(e);
-                } 
+                }
             }else{
                 correct=true;
             }
         }while(correct==false);
         return client;
     }
-    
+
     /**
     *Este metodo sirve para selecionar un vuleo de los impresos en buyticket e imprimir los billetes disponibles
     *@param selected: Es el vuelo que ha selecionado el usuario
@@ -281,13 +281,13 @@ public class Menu{
     /**
     *Este metodo sera utilizado para pedir al usuario el nombre de un aeropuerto y buscarlo en la base de datos de la compañia
     para saber si la compañia opera en ese aeropuerto
-    *@param company: Es la compañia aerea con la que se trabaja 
+    *@param company: Es la compañia aerea con la que se trabaja
     *@return airport: Es el codigo del aeropuerto que se busca, en ecaso de que no este ne la base de datos de la compañia sera null
     */
     private String searchFlight(AirCompany company){
         boolean found=false;
         String airport=null;
-        
+
         System.out.println("Por favor, introduzca el nombre del aeropuerto");
         Scanner teclado=new Scanner(System.in);
         String wanted=teclado.nextLine();
@@ -304,7 +304,7 @@ public class Menu{
     *@param selected: Es el ticket que ha selecionado el usuario
     */
     private void pickTicket(int selected){
-        
+
     }
     /**
     *Este metodo pide un codigo de ticket, y en caso de que se corresponda al de un ticket, pide al usuario que se identifique, si esta registrado imprime el vuelo al que pertenece
